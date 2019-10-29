@@ -8,29 +8,28 @@ import "./style.css";
 
 class App extends Component {
   state = {
-    ipfsHash: null,
-    buffer: "",
-    ethAddress: "",
-    transactionHash: "",
-    txReceipt: ""
+    ipfsHash: "initial hash",
+    buffer: "initial buffer",
+    ethAddress: "contract address",
+    transactionHash: "tx hash",
+    txReceipt: "tx receipt"
   };
-
-  constructor() {
-    super();
-  }
-
+  
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <h1>Lilly Picture Contest!</h1>
-          <em>Brought to you by blockchain!</em>
+          <em>Brought to you by blockchain -- Prize: 2 Ether!</em>
         </header>
-        <ImageStrip />        
+        <ImageStrip />
         <hr />
         <UploadImage />
         <hr />
-        <Receipt ipfsHash="whwhwhw" />
+        <Receipt
+          ipfsHash={this.state.ipfsHash}
+          ethAddress={this.state.ethAddress}
+        />
       </div>
     );
   }
