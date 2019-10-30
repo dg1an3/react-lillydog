@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
+import { Buffer } from "buffer";
 
 class UploadImage extends Component {
   render() {
