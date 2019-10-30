@@ -15,9 +15,34 @@ class App extends Component {
     txReceipt: "tx receipt"
   };
   
-  handleSubmit(buffer) {
+  handleSubmit = async (buffer) => {
     alert("submitted!" + buffer.length);
-  }
+    event.preventDefault();
+
+    //bring in user's metamask account address     
+    const accounts = await web3.eth.getAccounts();
+
+    //obtain contract address from storehash.js      
+    const ethAddress = await storehash.options.address;
+    this.setState({ ethAddress });
+    //save document to IPFS,return its hash#, and set hash# to state      
+    await ipfs.add(this.state.buffer, (err, ipfsHash) => {
+      console.log(err, ipfsHash);
+      //setState by setting ipfsHash to ipfsHash[0].hash        
+      this.setState({ ipfsHash: ipfsHash[0].hash });
+      // call Ethereum contract method "sendHash" and .send IPFS hash to ethereum contract        
+      //return the transaction hash from the ethereum contract      
+      const decoded = bs58.decode(this.state.ipfsHash)
+      const bytesFromBase58 = "0x" + decoded.slice(2).toString('hex')
+      const encodedParam = web3.eth.abi.encodeParameter('bytes32', bytesFromBase58);
+      storehash.methods.submit(encodedParam).send({
+        from: accounts[0]
+      }, (error, transactionHash) => {
+        console.log(transactionHash);
+        this.setState({ transactionHash });
+      });
+    })
+  }; 
 
   render() {
     return (

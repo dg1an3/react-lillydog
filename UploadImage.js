@@ -23,7 +23,7 @@ class UploadImage extends Component {
     return (
       <div>
         <h3> Choose file to send to IPFS </h3>
-        <form onSubmit={() => this.onSubmit(this.buffer)}>
+        <form onSubmit={() => this.props.onSubmit(this.buffer)}>
           <input type="file" onChange={this.captureFile} />
           <Button bsStyle="primary" type="submit">
             Send it
