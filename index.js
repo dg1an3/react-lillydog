@@ -15,6 +15,10 @@ class App extends Component {
     txReceipt: "tx receipt"
   };
   
+  handleSubmit(buffer) {
+    alert("submitted!" + buffer.length);
+  }
+
   render() {
     return (
       <div className="App">
@@ -24,7 +28,8 @@ class App extends Component {
         </header>
         <ImageStrip />
         <hr />
-        <UploadImage />
+        <UploadImage
+          onSubmit={this.handleSubmit} />
         <hr />
         <Receipt
           ipfsHash={this.state.ipfsHash}
